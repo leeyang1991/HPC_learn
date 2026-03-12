@@ -4,8 +4,22 @@ echo "Current date and time: $(date)"
 echo "Hostname: $(hostname)"
 echo "Job ID: $SLURM_JOB_ID"
 
-# SBATCH --job-name=Yang_test
-# SBATCH --output=Yang_test.out
-# SBATCH --error=Yang_test.err
-# SBATCH --time=00:10:00
-# SBATCH --ntasks=1
+#!/bin/bash
+#SBATCH --job-name=yang_analysis
+#SBATCH --time=0:02:00
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --output=log.out
+#SBATCH --error=log.err
+
+PYTHON=/home/ygo26002/miniforge3/envs/lytools/bin/python
+
+echo "Start job"
+hostname
+date
+
+$PYTHON /home/ygo26002/Remote_SSH_Project/hpc_test/test.py
+
+echo "Finished"
+date
+
