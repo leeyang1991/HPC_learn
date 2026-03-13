@@ -1,0 +1,64 @@
+ALLOCATED   The node has been allocated to one or more jobs.
+
+ALLOCATED+  The node is allocated to one or more active jobs plus one or more jobs are in the process of COMPLETING.
+
+BLOCKED     The node has been blocked by exclusive topo job.
+
+COMPLETING  All jobs associated with this node are in the process of COMPLETING. This node state will be removed  when  all  of  the
+            job's  processes have terminated and the Slurm epilog program (if any) has terminated. See the Epilog parameter descrip‐
+            tion in the slurm.conf(5) man page for more information.
+
+DOWN        The node is unavailable for use. Slurm can automatically place nodes in this state if some failure occurs. System admin‐
+            istrators  may  also  explicitly  place nodes in this state. If a node resumes normal operation, Slurm can automatically
+            return it to service. See the ReturnToService and SlurmdTimeout parameter descriptions in the slurm.conf(5) man page for
+            more information.
+
+DRAINED     The  node  is  unavailable  for use per system administrator request. See the update node command in the scontrol(1) man
+            page or the slurm.conf(5) man page for more information.
+
+DRAINING    The node is currently allocated a job, but will not be allocated additional jobs. The node  state  will  be  changed  to
+            state DRAINED when the last job on it completes. Nodes enter this state per system administrator request. See the update
+            node command in the scontrol(1) man page or the slurm.conf(5) man page for more information.
+
+FAIL        The node is expected to fail soon and is unavailable for use per system administrator request.  See the update node com‐
+            mand in the scontrol(1) man page or the slurm.conf(5) man page for more information.
+
+FAILING     The  node is currently executing a job, but is expected to fail soon and is unavailable for use per system administrator
+            request.  See the update node command in the scontrol(1) man page or the slurm.conf(5) man page for more information.
+
+FUTURE      The node is currently not fully configured, but expected to be available at some point in the indefinite future for use.
+
+IDLE        The node is not allocated to any jobs and is available for use.
+
+INVAL       The node did not register correctly with the controller. This happens when a node registers  with  less  resources  than
+            configured in the slurm.conf file.  The node will clear from this state with a valid registration (i.e. a slurmd restart
+            is required).
+
+MAINT       The node is currently in a reservation with a flag value of "maintenance".
+REBOOT_ISSUED
+            A reboot request has been sent to the agent configured to handle this request.
+
+REBOOT_REQUESTED
+            A request to reboot this node has been made, but hasn't been handled yet.
+
+MIXED       The node has some of its CPUs ALLOCATED while others are IDLE.  Or the node has a suspended job allocated to some of its
+            TRES (e.g. memory).
+
+PERFCTRS (NPC)
+            Network Performance Counters associated with this node are in use, rendering this node as not usable for any other jobs
+
+PLANNED     The node is planned by the backfill scheduler for a higher priority job.
+
+POWER_DOWN  The node is pending power down.
+
+POWERED_DOWN
+            The node is currently powered down and not capable of running any jobs.
+
+POWERING_DOWN
+            The node is in the process of powering down and not capable of running any jobs.
+
+POWERING_UP The node is in the process of being powered up.
+
+RESERVED    The node is in an advanced reservation and not generally available.
+
+UNKNOWN     The Slurm controller has just started and the node's state has not yet been determined.
