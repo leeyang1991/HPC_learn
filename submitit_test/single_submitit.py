@@ -16,7 +16,6 @@ executor.update_parameters(
     cpus_per_task=1,
     mem_gb=0.3,
     slurm_partition="general",
-    slurm_array_parallelism=50
 )
 
 job = executor.submit(my_function, 32)
