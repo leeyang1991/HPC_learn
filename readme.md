@@ -23,6 +23,7 @@ See `man sinfo` for more details.
 - `sjobs -j {JOBID}`   # View a specific job
 - `scontrol show job {JOBID}` # View detailed information about a specific job.
 - `tmux` # Start a tmux session to monitor jobs in real-time.
+- `seff {JOBID}` # View the resource usage of a completed job.
 ### Job Cancellation
 - `scancel <job_id>` # Cancel a specific job.
 - ``` scancel -u `whoami` ``` # Cancel all your jobs.
