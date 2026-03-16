@@ -13,6 +13,7 @@ See `man sinfo` for more details.
 - `sinfo -p general` # View information about the 'general' partition.
 - `sinfo -p gpu` # View information about the 'gpu' partition.
 ### Job Submission
+- `sinfo -t down,drained,draining` # Check for any nodes that are down or unavailable.
 - `sbatch <script.sh>` # Submit a job using a script.
 - `sranks | grep username` # View your currently running jobs and their node assignments.
 
@@ -24,6 +25,7 @@ See `man sinfo` for more details.
 - `scontrol show job {JOBID}` # View detailed information about a specific job.
 - `tmux` # Start a tmux session to monitor jobs in real-time.
 - `seff {JOBID}` # View the resource usage of a completed job.
+- `shist|grep FAIL` # View all failed jobs.
 ### Job Cancellation
 - `scancel <job_id>` # Cancel a specific job.
 - ``` scancel -u `whoami` ``` # Cancel all your jobs.

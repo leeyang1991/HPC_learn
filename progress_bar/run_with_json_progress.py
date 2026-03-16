@@ -3,8 +3,11 @@ import time
 import os
 import json
 import shutil
+from pprint import pprint
+import numpy as np
+# from joblib import Parallel, delayed
+import multiprocessing
 
-fdir = '/gpfs/scratchfs1/ygo26002/ygo26002/test_data_pbar'
 
 def mkdir(dir, force=False):
     if not os.path.isdir(dir):
@@ -40,11 +43,17 @@ def sleep(seconds):
 
 def my_func_with_pbar(params):
     fpath, json_fpath,sub_job_name,current_job_id,total_job_num = params
-    print(fpath)
+    # pprint(params)
+    print('fpath:',fpath)
+    print('json_fpath:',json_fpath)
+    print('sub_job_name:',sub_job_name)
+    print('current_job_id:',current_job_id)
+    print('total_job_num:',total_job_num)
+
     with open(fpath) as fr:
         content = fr.readlines()[0]
         random_number = int(content.strip())
-        for step in range(random_number+1):
+        for step in range(random_number+1): # can't be to large
             progress_data = {
                 "step": step,
                 "total": random_number,
@@ -55,11 +64,22 @@ def my_func_with_pbar(params):
             progress_fpath = json_fpath
             with open(progress_fpath, 'w') as fw:
                 json.dump(progress_data, fw)
-            sleep(1)
+            sleep(0.2)
+        void_array = np.ones((10,10))
+        return f"Finished processing {fpath}", f'current_job_id: {current_job_id}',void_array
 
 def hpc_run():
-    log_folder = "/gpfs/scratchfs1/ygo26002/ygo26002/log_dir"
-    progress_dir = '/gpfs/scratchfs1/ygo26002/ygo26002/test_data_pbar_progress'
+    # fdir = '/gpfs/scratchfs1/ygo26002/ygo26002/test_data_pbar'
+    # log_folder = "/gpfs/scratchfs1/ygo26002/ygo26002/log_dir"
+    # progress_dir = '/gpfs/scratchfs1/ygo26002/ygo26002/test_data_pbar_progress'
+
+    # fdir = '/home/yangli/UCONN_Projects/HPC_learn/test_data_pbar'
+    # log_folder = "/home/yangli/UCONN_Projects/HPC_learn/log_dir"
+    # progress_dir = '/home/yangli/UCONN_Projects/HPC_learn/test_data_pbar_progress'
+
+    fdir = '/Users/liyang/Documents/pycharm_project_temp/HPC_learn/test_data_pbar'
+    log_folder = "/Users/liyang/Documents/pycharm_project_temp/HPC_learn/log_dir"
+    progress_dir = '/Users/liyang/Documents/pycharm_project_temp/HPC_learn/test_data_pbar_progress'
 
     if os.path.exists(log_folder):
         shutil.rmtree(log_folder)
@@ -68,13 +88,14 @@ def hpc_run():
     mkdir(progress_dir, force=True)
 
     executor = submitit.AutoExecutor(folder=log_folder)
+    # executor = submitit.LocalExecutor(folder=log_folder)
 
     executor.update_parameters(
         slurm_job_name="pbar",
         cpus_per_task=1,
-        mem_gb=0.5,
-        timeout_min=3,
-        slurm_array_parallelism=30,
+        mem_gb=1,
+        timeout_min=5,
+        slurm_array_parallelism=20,
         slurm_partition="general",
     )
     print('submiting...')
@@ -89,8 +110,17 @@ def hpc_run():
         flag += 1
         sub_job_name = f
         params_list.append((fpath, json_fpath, sub_job_name, current_job_id, total_job_num))
-    jobs = executor.map_array(my_func_with_pbar, params_list)
-    print(jobs[0].job_id)
+
+    # HPC
+    # jobs = executor.map_array(my_func_with_pbar, params_list)
+    # print('len(jobs):', len(params_list))
+    # print(jobs[0].job_id)
+
+    # Local machine
+    P = multiprocessing.Pool(30)
+    results = P.map(my_func_with_pbar, params_list)
+
+
 
 
 def main():

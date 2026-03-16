@@ -23,12 +23,12 @@ executor.update_parameters(
     cpus_per_task=1,
     mem_gb=0.5,
     timeout_min=1,
-    slurm_array_parallelism=10,
+    slurm_array_parallelism=100,
     slurm_partition="general",
 )
 print('submiting...')
 params_list = []
-for i in range(100):
+for i in range(1000):
     x = i
     y = i*2
     params_list.append((x,y))
