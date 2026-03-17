@@ -7,14 +7,18 @@ from pathlib import Path
 from rich.progress import Progress
 import os
 from pprint import pprint
+
+# HPC
 # fdir = '/gpfs/scratchfs1/ygo26002/ygo26002/test_data_pbar'
 # pbar_dir = '/gpfs/scratchfs1/ygo26002/ygo26002/test_data_pbar_progress'
 
-# fdir = '/home/yangli/UCONN_Projects/HPC_learn/test_data_pbar'
-# pbar_dir = '/home/yangli/UCONN_Projects/HPC_learn/test_data_pbar_progress'
+# DELL
+fdir = '/home/yangli/UCONN_Projects/HPC_learn/test_data_pbar'
+pbar_dir = '/home/yangli/UCONN_Projects/HPC_learn/test_data_pbar_progress'
 
-fdir = '/Users/liyang/Documents/pycharm_project_temp/HPC_learn/test_data_pbar'
-pbar_dir = '/Users/liyang/Documents/pycharm_project_temp/HPC_learn/test_data_pbar_progress'
+# MAC M4PRO
+# fdir = '/Users/liyang/Documents/pycharm_project_temp/HPC_learn/test_data_pbar'
+# pbar_dir = '/Users/liyang/Documents/pycharm_project_temp/HPC_learn/test_data_pbar_progress'
 
 import json
 import time

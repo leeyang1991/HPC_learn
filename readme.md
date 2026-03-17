@@ -1,5 +1,6 @@
 # Uconn HPC Cheat Sheet
-
+## Hint
+- `motd` # Message of the day, check for any important announcements or updates regarding the cluster.
 
 ## Module Management
 - `module avail` # List all available modules.
