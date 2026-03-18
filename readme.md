@@ -1,6 +1,6 @@
 # Uconn HPC Cheat Sheet
 ## Hint
-- `motd` # Message of the day, check for any important announcements or updates regarding the cluster.
+- `motd` # Hint messages.
 
 ## Module Management
 - `module avail` # List all available modules.
@@ -39,7 +39,7 @@ See `man sinfo` for more details.
 
 ## Job Script Template
 
-```
+```bash
 #!/bin/bash
 #SBATCH -J jobname # input your job name
 #SBATCH --partition=general # partition (sinfo to check all)
@@ -52,10 +52,61 @@ See `man sinfo` for more details.
 #SBATCH -e log/%x-err-%A_%4a.err # error report
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0:02:00 # specify the time you need, e.g., 2 minutes
+#SBATCH --exclude=cn[507] # exclude specific nodes
 
 python script.py $SLURM_ARRAY_TASK_ID
 
 ```
+## Submitit
+A python package for submitting jobs to a cluster
 
+`pip install submitit` # Install submitit
 
+### Example usage for array jobs:
+```python
+import submitit
+import time
+
+def my_function(param):
+    x,y = param
+
+    result = x+y
+    print('input:',x,y)
+    print('result:',result)
+    time.sleep(1)
+    return result
+
+params_list = [(1,2),(3,4),(5,6),(7,8),(9,10)]
+
+executor = submitit.AutoExecutor(folder="log_dir")
+
+executor.update_parameters(
+    slurm_job_name="job_name",
+    cpus_per_task=1,
+    mem_gb=0.5,
+    timeout_min=1,
+    slurm_array_parallelism=100,
+    slurm_partition="general",
+    srun_args={"exclude": "cn[473-479,501]"},
+)
+jobs = executor.map_array(my_function, params_list)
+```
+
+### Example usage for single job:
+```python
+import submitit
+def my_function(x):
+    return x * x
+
+executor = submitit.AutoExecutor(folder="log")
+executor.update_parameters(
+    timeout_min=1,
+    cpus_per_task=1,
+    mem_gb=0.3,
+    slurm_partition="general",
+)
+job = executor.submit(my_function, 10)
+print("job id:", job.job_id)
+print(job.result())
+```
 
